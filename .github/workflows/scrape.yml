@@ -1,0 +1,31 @@
+name: update-prices-hourly
+on:
+  schedule:
+    - cron: '0 * * * *'         
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install deps
+        run: pip install requests sqlite-utils
+
+      - name: Run scraper & commit DB
+        run: |
+          python scraper/fetch_prices.py
+          git add prices.db
+          git diff --cached --quiet || \
+          git -c user.email=bot@github -c user.name="gh-actions" \
+              commit -m "chore: hourly prices $(date -u '+%Y-%m-%d %H:%M')"
+      - name: Push
+        if: success()
+        run: git push

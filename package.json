@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.3.7",
+    "d3-format": "^3.1.0",
+    "node-fetch": "^3.3.2",
+    "react-bootstrap": "^2.10.10"
+  },
+  "devDependencies": {
+    "@types/d3-format": "^3.0.4",
+    "@types/node-fetch": "^2.6.12"
+  }
+}

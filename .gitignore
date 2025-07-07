@@ -69,3 +69,9 @@ node_modules/
 .out/
 .vercel/
 build/
+
+# ML artefacts
+*.joblib
+*.pkl
+*.h5
+listing.txt
