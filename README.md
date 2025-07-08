@@ -1,11 +1,12 @@
 # Crypto-Dashboard 📈
 [![CI](https://github.com/NONAME7MARS/crypto-dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/NONAME7MARS/crypto-dashboard/actions/workflows/ci.yml)
+
 Interactive dashboard that
 
 * scrapes top-10 crypto prices hourly (Binance API),
 * shows charts, SMA/EMA/volatility,
 * generates 24 h price forecasts (Prophet / HWES),
-* AI-explains every forecast (via **AIML API**),
+* AI-explains every quiz task (via **AIML API**),
 * ⚡ lets you play a *“guess-the-next-candle”* quiz.
 
 Built with **Next 15 / Tailwind / Recharts + Python 3.12**.
