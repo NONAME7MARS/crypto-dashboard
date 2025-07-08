@@ -35,9 +35,9 @@ npm --prefix ./app run dev
 ````
 
 Open [http://localhost:3000](http://localhost:3000)
-!(image)[https://i.imgur.com/KschuXy.png]
+<img src="https://i.imgur.com/KschuXy.png"/>
 Quiz lives at [http://localhost:3000/quiz](http://localhost:3000/quiz).
-!(image)[https://i.imgur.com/T3jQO4r.png]
+<img src="https://i.imgur.com/T3jQO4r.png"/>
 ---
 
 ## Environment variables
