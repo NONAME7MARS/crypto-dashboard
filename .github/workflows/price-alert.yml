@@ -1,25 +1,21 @@
-name: price-alert
+name: Price Alert
+
 on:
   schedule:
-    - cron: '*/15 * * * *'          # every 15 min
-  workflow_dispatch:
+    # UTC! каждый час
+    - cron: "0 * * * *"
+  workflow_dispatch:      # кнопка “Run workflow” в UI
 
 env:
-  TG_TOKEN: ${{ }} # Bot token
-  TG_CHAT:  ${{ }}  # Chat-ID 
+  TG_TOKEN: ${{ secrets.TG_TOKEN }}
+  TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
 
 jobs:
   alert:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with: { python-version: '3.12' }
-
-      - name: Install deps
-        run: pip install requests sqlite-utils python-telegram-bot==13.15
-
-      - name: Send alerts
-        run: python tools/check_alerts.py
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r scraper/requirements.txt
+      - run: python tools/check_alerts.py

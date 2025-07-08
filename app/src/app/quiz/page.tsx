@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import useSWR from "swr";
 import {
   ResponsiveContainer, LineChart, Line, XAxis, YAxis,
@@ -19,13 +20,43 @@ const nfmt = (v:number)=>Intl.NumberFormat("en",{notation:"compact",maximumFract
 const fetcher = (u:string)=>fetch(u).then(r=>r.json());
 const PAIRS = ["BTC","ETH","BNB","SOL","XRP","DOGE","TRX","USDC","USDT"];
 
-/* ── tooltip ────────────────────────────────── */
-function Tip({active,payload,label}:{active?:boolean;payload?:any[];label?:any}){
-  return active&&payload?.length?(
+
+
+interface PayloadItem {
+
+  value: number | string;
+
+  name:  string;
+
+  color: string;
+}
+
+interface TipProps {
+  active?:  boolean;
+  payload?: PayloadItem[];
+  label?:   number;
+}
+
+// ─────────────────────────────────────────────────────────
+// Tooltip
+// ─────────────────────────────────────────────────────────
+function Tip({ active, payload, label }: TipProps) {
+  if (!active || !payload?.length || label == null) return null;
+
+  const ts     = label;               // already number
+  const price  = Number(payload[0].value).toLocaleString();
+
+  return (
     <div className="rounded bg-white dark:bg-slate-700 px-2 py-1 shadow text-xs">
-      <p className="font-medium mb-1 truncate">{new Date(label*1000).toLocaleString()}</p>
-      <p>Price: <span className="font-semibold">${(+payload[0].value).toLocaleString()}</span></p>
-    </div>):null;
+      <p className="font-medium mb-1 truncate">
+        {new Date(ts * 1000).toLocaleString()}
+      </p>
+      <p>
+        Price:&nbsp;
+        <span className="font-semibold">${price}</span>
+      </p>
+    </div>
+  );
 }
 
 /* ── page ───────────────────────────────────── */
@@ -56,9 +87,8 @@ export default function Quiz(){
 
         {/* header */}
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <a href="/"
-             className="inline-flex items-center gap-1 rounded-lg bg-blue-600
-                        px-3 py-1.5 text-white text-sm hover:bg-blue-700">↩ Back</a>
+          <Link href="/" className="inline-flex items-center gap-1 rounded-lg bg-blue-600
+                        px-3 py-1.5 text-white text-sm hover:bg-blue-700">↩ Back</Link>
 
           <div className="flex flex-wrap gap-1">
             {PAIRS.map(p=>(

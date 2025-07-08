@@ -4,6 +4,11 @@
 ------------------------------------------------------------------*/
 import { NextResponse } from "next/server";
 
+type Kline = [
+  number, string, string, string, string, string,
+  number, string, number, string, string, string
+];
+
 /* ── constants ────────────────────────────────────────────────── */
 const SYMBOLS   = ["BTCUSDT","ETHUSDT","BNBUSDT","SOLUSDT","XRPUSDT"];
 const MS_HOUR   = 60 * 60 * 1000;
@@ -26,7 +31,7 @@ export async function GET(req: Request) {
 
   const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}` +
               `&interval=1h&startTime=${start}&endTime=${end}&limit=26`;
-  const raw = await fetch(url).then(r=>r.json()) as any[];
+  const raw = await fetch(url).then(r=>r.json()) as Kline[];
 
   if(!Array.isArray(raw)||raw.length<25)
     return NextResponse.json({error:"Binance returned too few candles"},{status:502});
@@ -49,7 +54,7 @@ export async function POST(req: Request) {
   /* --- 1: фактическая свеча ----------------------------------- */
   const binUrl = `https://api.binance.com/api/v3/klines?symbol=${symbol}` +
                  `&interval=1h&startTime=${targetStart}&limit=1`;
-  const raw = await fetch(binUrl).then(r => r.json()) as any[];
+  const raw = await fetch(binUrl).then(r => r.json()) as Kline[];
   const actual   = +raw[0][4];
   const errorPct = Math.abs((actual - guess) / guess) * 100;
 
@@ -81,7 +86,7 @@ export async function POST(req: Request) {
       signal: ctrl.signal
     });
 
-    const dbg = await aiRes.text();               // <—— читаем как text
+    const dbg = await aiRes.text();               
     console.log("AIML status", aiRes.status, dbg);
 
     if (aiRes.ok) {
@@ -95,8 +100,12 @@ export async function POST(req: Request) {
       explanation = `⚠︎ AIML ${aiRes.status}: ${dbg.slice(0,60)}`;
     }
 
-  } catch (e:any) {
-    explanation = `⚠︎ AIML error: ${e.message}`;
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      explanation = `⚠︎ AIML error: ${e.message}`;
+    } else {
+      explanation = "⚠︎ AIML error";
+    }
   }
 
   return NextResponse.json({
