@@ -29,7 +29,13 @@ const analytics=(pts:Point[],win=24)=>{
 };
 
 /* tooltip */
-interface TipProps{active?:boolean;payload?:any[];label?:any;showPred:boolean}
+interface TooltipItem { value: number; dataKey: string; name: string; color?: string }
+interface TipProps {
+  active?: boolean;
+  label?: number | string;
+  payload?: TooltipItem[];
+  showPred?: boolean;
+}
 const ChartTooltip=({active,label,payload,showPred}:TipProps)=>{
   if(!active||!payload?.length) return null;
   const rows=payload.filter(pl=> showPred || pl.dataKey!=="forecast");
