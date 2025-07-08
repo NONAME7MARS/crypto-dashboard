@@ -16,7 +16,7 @@ Built with **Next 15 / Tailwind / Recharts + Python 3.12**.
 ## Quick start (local)
 
 ```bash
-git clone https://github.com/<you>/crypto-dashboard.git
+git clone https://github.com/NONAME7MARS/crypto-dashboard.git
 cd crypto-dashboard
 
 # 1. install deps
