@@ -1,5 +1,5 @@
 # Crypto-Dashboard 📈
-
+[![CI](https://github.com/NONAME7MARS/crypto-dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/NONAME7MARS/crypto-dashboard/actions/workflows/ci.yml)
 Interactive dashboard that
 
 * scrapes top-10 crypto prices hourly (Binance API),
